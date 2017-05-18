@@ -12,17 +12,15 @@ namespace CusMng.Controllers
 {
     public class 客戶資料Controller : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
+        //private 客戶資料Entities db = new 客戶資料Entities();
+        客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
+        vw客戶關聯資料統計表Repository vwRepo = RepositoryHelper.Getvw客戶關聯資料統計表Repository();
 
         // GET: 客戶資料
         public ActionResult Index(string keyword)
         {
-            var data = db.客戶資料.Where(c => c.是否已刪除 == false).AsQueryable();
+            var data = repo.FindByAll(ShowAll:false,ShowCnt:10,kWord:keyword);
 
-            if (!String.IsNullOrEmpty(keyword))
-            {
-                data = data.Where(c => c.客戶名稱.Contains(keyword));
-            }
             return View(data.ToList());
         }
 
@@ -33,7 +31,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.FindById(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -56,8 +54,8 @@ namespace CusMng.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                repo.Add(客戶資料);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -71,7 +69,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.FindById(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -84,15 +82,15 @@ namespace CusMng.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Edit(int id)
         {
-            if (ModelState.IsValid)
+            var UpdData = repo.FindById(id);
+            if (TryUpdateModel(UpdData, new string[] { "電話", "傳真", "地址", "Email" }))
             {
-                db.Entry(客戶資料).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            return View(客戶資料);
+            return View(UpdData);
         }
 
         // GET: 客戶資料/Delete/5
@@ -102,7 +100,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.FindById(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -115,24 +113,15 @@ namespace CusMng.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.FindById(id);
             客戶資料.是否已刪除 = true;
-            db.SaveChanges();
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         public ActionResult 客戶關連統計表()
         {
-            return View(db.vw客戶關聯資料統計表.ToList());
+            return View(vwRepo.vsList().ToList());
         }
     }
 }
