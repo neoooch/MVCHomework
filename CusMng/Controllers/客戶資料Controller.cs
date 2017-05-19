@@ -114,7 +114,7 @@ namespace CusMng.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶資料 客戶資料 = repo.FindById(id);
-            客戶資料.是否已刪除 = true;
+            repo.Delete(客戶資料);
             repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }

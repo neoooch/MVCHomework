@@ -13,7 +13,7 @@ namespace CusMng.Controllers
     public class 客戶銀行資訊Controller : Controller
     {
         private 客戶資料Entities db = new 客戶資料Entities();
-
+        客戶銀行資訊Repository repo = new 客戶銀行資訊Repository();
         // GET: 客戶銀行資訊
         public ActionResult Index()
         {
@@ -28,7 +28,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.FindById(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -48,12 +48,12 @@ namespace CusMng.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼")] 客戶銀行資訊 客戶銀行資訊)
+        public ActionResult Create(客戶銀行資訊 客戶銀行資訊)
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(客戶銀行資訊);
-                db.SaveChanges();
+                repo.Add(客戶銀行資訊);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -68,7 +68,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.FindById(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -82,12 +82,12 @@ namespace CusMng.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼")] 客戶銀行資訊 客戶銀行資訊)
+        public ActionResult Edit(客戶銀行資訊 客戶銀行資訊)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(客戶銀行資訊).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Update(客戶銀行資訊);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
@@ -101,7 +101,7 @@ namespace CusMng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            客戶銀行資訊 客戶銀行資訊 = repo.FindById(id.Value);
             if (客戶銀行資訊 == null)
             {
                 return HttpNotFound();
@@ -114,9 +114,9 @@ namespace CusMng.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
-            db.SaveChanges();
+            客戶銀行資訊 客戶銀行資訊 = repo.FindById(id);
+            repo.Delete(客戶銀行資訊);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 

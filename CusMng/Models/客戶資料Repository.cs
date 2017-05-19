@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-	
+using System.Data.Entity;
+
 namespace CusMng.Models
 {   
 	public  class 客戶資料Repository : EFRepository<客戶資料>, I客戶資料Repository
@@ -43,7 +44,17 @@ namespace CusMng.Models
         {
             return this.All().FirstOrDefault(c => c.Id == id);
         }
-	}
+
+        public void Update(客戶資料 UpdData)
+        {
+            this.UnitOfWork.Context.Entry(UpdData).State = EntityState.Modified;
+        }
+
+        public override void Delete(客戶資料 entity)
+        {
+            entity.是否已刪除 = true;
+        }
+    }
 
 	public  interface I客戶資料Repository : IRepository<客戶資料>
 	{

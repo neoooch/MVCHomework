@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CusMng.Models.客戶資料>
+
+@{
+    ViewBag.Title = "客戶資料管理";
+}
+@section breadcrumb{
+    <a class="navbar-brand" href="@Url.Action("客戶資料管理","Clean")">客戶資料管理</a>
+}
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="page-heading">
+                    <h1>客戶資料管理</h1>
+                    <hr class="small">
+                    @*<span class="subheading">This is what I do.</span>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <p>
+                @Html.ActionLink("Create New", "Create")
+                @using (Html.BeginForm("客戶資料管理", "Clean", FormMethod.Get))
+                {
+                    <input type="search" placeholder="請輸入關鍵字" name="keyword" value="" />
+                }
+
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.客戶名稱)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.統一編號)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.電話)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.傳真)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.地址)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.客戶名稱)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.統一編號)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.電話)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.傳真)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.地址)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<hr>
+

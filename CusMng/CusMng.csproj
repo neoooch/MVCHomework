@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CleanController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
@@ -268,10 +269,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="about.html" />
     <Content Include="App_Data\客戶資料.mdf" />
     <Content Include="App_Data\客戶資料_log.ldf">
       <DependentUpon>客戶資料.mdf</DependentUpon>
     </Content>
+    <Content Include="contact.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
@@ -279,6 +283,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="gulpfile.js" />
+    <Content Include="index.html" />
     <Content Include="Models\ClientDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ClientDB.edmx</DependentUpon>
@@ -297,6 +303,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IRepository.EF6..cs</LastGenOutput>
     </Content>
+    <Content Include="post.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\ClientDB.edmx">
@@ -306,6 +313,9 @@
     <Content Include="Models\ClientDB.edmx.diagram">
       <DependentUpon>ClientDB.edmx</DependentUpon>
     </Content>
+    <Content Include="LICENSE" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -368,8 +378,21 @@
     <Content Include="Views\客戶銀行資訊\Edit.cshtml" />
     <Content Include="Views\客戶銀行資訊\Index.cshtml" />
     <Content Include="Views\客戶資料\客戶關連統計表.cshtml" />
+    <Content Include="Views\Clean\_Layout.cshtml" />
+    <Content Include="Views\Clean\_ViewStart.cshtml" />
+    <Content Include="Views\Clean\客戶關連統計表.cshtml" />
+    <Content Include="Views\Clean\Index.cshtml" />
+    <Content Include="Views\Clean\客戶資料管理.cshtml" />
+    <Content Include="Views\Clean\聯絡人管理.cshtml" />
+    <Content Include="Views\Clean\客戶銀行資訊.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="css\" />
+    <Folder Include="img\" />
+    <Folder Include="js\" />
+    <Folder Include="less\" />
+    <Folder Include="mail\" />
+    <Folder Include="vendor\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
